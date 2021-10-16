@@ -410,7 +410,7 @@ class ChatMod(loader.Module):
             "<b>[Echo Mode]</b> Деактивирован в этом чате!")
 
     async def delmecmd(self, message):
-	"""Удаляет все сообщения от тебя"""
+        """Удаляет все сообщения от тебя"""
 		chat = message.chat
 		if chat:
 			args = utils.get_args_raw(message)
