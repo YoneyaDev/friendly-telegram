@@ -9,7 +9,7 @@ def register(cb):
 
 class SpamMod(loader.Module):
     """Спам модуль"""
-    strings = {'name': 'Spam'}
+    strings = {'name': 'Спам'}
 
     async def spamcmd(self, message):
         """Обычный спам. Используй .spam <кол-во:int> <текст или реплай>."""
