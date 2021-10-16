@@ -7,7 +7,7 @@ from .. import loader, utils
 @loader.tds
 class ModulesLinkMod(loader.Module):
     """Ссылка на модуль"""
-    strings = {'name': 'ModulesLink'}
+    strings = {'name': 'Ссылка на модуль'}
 
     async def mlcmd(self, message):
         """Вывести ссылку на модуль"""
