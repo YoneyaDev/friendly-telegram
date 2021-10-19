@@ -134,7 +134,7 @@ class ChatMod(loader.Module):
         if message.is_private:
             return await message.edit("<b>Это не чат!</b>")
         if args:
-            await message.edit(f"<b>До связи.\nПричина: {args}</b>")
+            await message.edit(f"<b>Я покидаю этот чат...\nПричина: {args}</b>")
         else:
             await message.edit("<b>До связи.</b>")
         await message.client(LeaveChannelRequest(message.chat_id))
