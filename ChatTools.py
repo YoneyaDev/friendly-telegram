@@ -136,7 +136,7 @@ class ChatMod(loader.Module):
         if args:
             await message.edit(f"<b>Я покидаю этот чат...\nПричина: {args}</b>")
         else:
-            await message.edit("<b>До связи.</b>")
+            await message.edit("<b>Я покидаю этот чат...</b>")
         await message.client(LeaveChannelRequest(message.chat_id))
 
     async def userscmd(self, message):
