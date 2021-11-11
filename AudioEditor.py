@@ -12,7 +12,7 @@ class AudioEditorMod(loader.Module):
         if not args: lvl = 2
         else:
             if args.isdigit() and (1<int(args)<101): lvl = int(args)
-            else: return await reply.reply(f"[БассБуст] Укажи уровень от 2 до 100...")
+            else: return await m.reply(f"[БассБуст] Укажи уровень от 2 до 100...")
         audio = await get_audio(m, "BassBoost")
         if not audio: return
         sample_track = list(audio.audio.get_array_of_samples())
@@ -138,7 +138,7 @@ async def get_audio(m, pref):
         ae.reply = reply
         ae.voice = reply.document.attributes[0].voice
         ae.duration = reply.document.attributes[0].duration
-        await m.edit(f"[{pref}] Скачиваю...")
+        await m.reply(f"[{pref}] Скачиваю...")
         ae.audio = AudioSegment.from_file(io.BytesIO(await reply.download_media(bytes)))
         await m.edit(f"[{pref}] Работаю...")
         return ae
