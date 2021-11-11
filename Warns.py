@@ -18,10 +18,10 @@ class WarnsMod(loader.Module):
         if not message.is_private:
             chat = await message.get_chat()
             if not chat.admin_rights and not chat.creator:
-                return await message.reply("<b>Я не админ здесь.</b>")
+                return await message.respond("<b>Я не админ здесь.</b>")
             else:
                 if not chat.admin_rights.ban_users:
-                    return await message.edit("<b>У меня нет нужных прав.</b>")
+                    return await message.respond("<b>У меня нет нужных прав.</b>")
 
             warns = self.db.get("Warns", "warns", {})
             args = utils.get_args(message)
@@ -30,7 +30,7 @@ class WarnsMod(loader.Module):
             reason = "Необоснованно"
 
             if not args and not reply:
-                return await message.edit("<b>Нет аргументов или реплая.</b>")
+                return await message.respond("<b>Нет аргументов или реплая.</b>")
 
             if reply:
                 user = await message.client.get_entity(reply.sender_id)
@@ -48,7 +48,7 @@ class WarnsMod(loader.Module):
             userid = str(user.id)
             me = await message.client.get_me() 
             if me.id == user.id:
-                return await message.edit("<b>Ты не можешь себе давать предупреждение!</b>") 
+                return await message.respond("<b>Ты не можешь себе давать предупреждение!</b>") 
 
             if chatid not in warns:
                 warns.update({chatid: {"limit": 3, "action": "ban"}})
@@ -56,7 +56,7 @@ class WarnsMod(loader.Module):
                 warns[chatid].update({userid: []})
 
             if not args and not reply:
-                return await message.edit("<b>Нет аргументов или реплая.</b>")
+                return await message.respond("<b>Нет аргументов или реплая.</b>")
 
             warns[chatid][userid].append(reason)
             count = len(warns[chatid][userid])
@@ -72,13 +72,13 @@ class WarnsMod(loader.Module):
                     elif warns[chatid]["action"] == "mute":
                         await message.client(EditBannedRequest(int(chatid), user.id , ChatBannedRights(until_date=True, send_messages=True)))
                 except UserAdminInvalidError:
-                    return await message.edit("<b>У меня нет достаточных прав.</b>")
+                    return await message.respond("<b>У меня нет достаточных прав.</b>")
                 else:
-                    return await message.edit(f"<b>{user.first_name} получил {count}/{warns[chatid]['limit']} предупреждения, и был ограничен в чате.</b>")
+                    return await message.respond(f"<b>{user.first_name} получил {count}/{warns[chatid]['limit']} предупреждения, и был ограничен в чате.</b>")
             self.db.set("Warns", "warns", warns)
             await message.edit(f"<b><a href=\"tg://user?id={user.id}\">{user.first_name}</a> получил {count}/{warns[chatid]['limit']} предупреждений.</b>" + (f"\nПричина: {reason}.</b>" if reason != "Необоснованно" else ""))
         else:
-            return await message.edit("<b>Это не чат!</b>")
+            return await message.respond("<b>Это не чат!</b>")
 
 
     async def warnslimitcmd(self, message):
