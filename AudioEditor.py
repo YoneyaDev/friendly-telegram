@@ -138,7 +138,7 @@ async def get_audio(m, pref):
         ae.reply = reply
         ae.voice = reply.document.attributes[0].voice
         ae.duration = reply.document.attributes[0].duration
-        await client.send_m(m.chat_id, "я ебалн", reply_to=reply)
+        await m.reply(f"[{pref}] Скачиваю...")
         ae.audio = AudioSegment.from_file(io.BytesIO(await reply.download_media(bytes)))
         await m.edit(f"[{pref}] Работаю...")
         return ae
