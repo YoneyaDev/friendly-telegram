@@ -19,26 +19,26 @@ class FiltersMod(loader.Module):
 		chatid = str(message.chat_id)
 
 		if not key and not reply:
-			return await message.edit("<b>No args or reply.</b>")
+			return await message.reply("<b>No args or reply.</b>")
 
 		if chatid not in filters:
 			filters.setdefault(chatid, {})
 
 		if key in filters[chatid]:
-			return await message.edit("<b>Such a filter already exists.</b>")
+			return await message.reply("<b>Such a filter already exists.</b>")
 
 		if reply:
 			if key:
 				msgid = await self.db.store_asset(reply)
 			else:
-				return await message.edit("<b>You need arguments to save the filter!</b>")
+				return await message.reply("<b>You need arguments to save the filter!</b>")
 		else:
 			try:
 				msgid = (await message.client.send_message(f'friendly-{(await message.client.get_me()).id}-assets',
 				                                           key.split('/')[1])).id
 				key = key.split('/')[0]
 			except IndexError:
-				return await message.edit("<b>Need a second argument (through / ) or a reply.</b>")
+				return await message.reply("<b>Need a second argument (through / ) or a reply.</b>")
 
 		filters[chatid].setdefault(key, msgid)
 		self.db.set("Filters", "filters", filters)
@@ -84,12 +84,12 @@ class FiltersMod(loader.Module):
 		chatid = str(message.chat_id)
 
 		if chatid not in filters:
-			return await message.edit("<b>There are no filters in this chat.</b>")
+			return await message.reply("<b>There are no filters in this chat.</b>")
 
 		msg = ""
 		for _ in filters[chatid]:
 			msg += f"<b>• {_}</b>\n"
-		await message.edit(f"<b>List of filters in this chat: {len(filters[chatid])}\n\n{msg}</b>")
+		await message.reply(f"<b>List of filters in this chat: {len(filters[chatid])}\n\n{msg}</b>")
 
 	async def watcher(self, message):
 		try:
