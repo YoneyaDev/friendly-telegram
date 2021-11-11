@@ -18,7 +18,7 @@ class WarnsMod(loader.Module):
         if not message.is_private:
             chat = await message.get_chat()
             if not chat.admin_rights and not chat.creator:
-                return await send.message("<b>Я не админ здесь.</b>")
+                return await message.reply("<b>Я не админ здесь.</b>")
             else:
                 if not chat.admin_rights.ban_users:
                     return await message.edit("<b>У меня нет нужных прав.</b>")
