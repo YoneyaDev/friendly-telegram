@@ -142,7 +142,7 @@ async def get_audio(m, pref):
         ae.audio = AudioSegment.from_file(io.BytesIO(await reply.download_media(bytes)))
         await m.edit(f"[{pref}] Работаю...")
         return ae
-    else: await m.edit(f"[{pref}] reply to audio..."); return None
+    else: await m.reply(f"[{pref}] reply to audio..."); return None
 async def go_out(m, audio, out, pref, title, fs=None):
     o = io.BytesIO()
     o.name = "audio." + ("ogg" if audio.voice else "mp3")
