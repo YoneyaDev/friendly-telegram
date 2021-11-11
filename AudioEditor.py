@@ -140,6 +140,7 @@ async def get_audio(m, pref):
         ae.duration = reply.document.attributes[0].duration
         await m.reply(f"[{pref}] Скачиваю...")
         ae.audio = AudioSegment.from_file(io.BytesIO(await reply.download_media(bytes)))
+        await m.delete
         await m.reply(f"[{pref}] Работаю...")
         return ae
     else: await m.reply(f"[{pref}] В ответ на аудио..."); return None
@@ -151,5 +152,4 @@ async def go_out(m, audio, out, pref, title, fs=None):
     out.export(o, format="mp3" if audio.voice else "wav", bitrate="44100" if audio.voice else None, codec="u16le" if audio.voice else None)
     o.seek(0)
     await m.reply(f"[{pref}] Отправляю...")
-    await m.client.send_file(m.to_id, o, reply_to=audio.reply.id, voice_note=audio.voice, attributes=[types.DocumentAttributeAudio(duration = fs if fs else audio.duration, title=title, performer="@Sekai_Yoneya")] if not audio.voice else None)
-    await m.delete()
+    await m.client.send_file(m.to_id, o, reply_to=audio.reply.id, voice_note=audio.voice, attributes=[types.DocumentAttributeAudio(duration = fs if fs else audio.duration, title=title, performer="@Yoneya_Family")] if not audio.voice else None)
