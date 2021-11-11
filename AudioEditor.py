@@ -12,7 +12,7 @@ class AudioEditorMod(loader.Module):
         if not args: lvl = 2
         else:
             if args.isdigit() and (1<int(args)<101): lvl = int(args)
-            else: return await send.message(f"[БассБуст] Укажи уровень от 2 до 100...")
+            else: return await reply.reply(f"[БассБуст] Укажи уровень от 2 до 100...")
         audio = await get_audio(m, "BassBoost")
         if not audio: return
         sample_track = list(audio.audio.get_array_of_samples())
