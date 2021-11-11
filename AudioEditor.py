@@ -12,7 +12,7 @@ class AudioEditorMod(loader.Module):
         if not args: lvl = 2
         else:
             if args.isdigit() and (1<int(args)<101): lvl = int(args)
-            else: return await m.respond(f"[БассБуст] Укажи уровень от 2 до 100...")
+            else: return await m.reply(f"[БассБуст] Укажи уровень от 2 до 100...")
         audio = await get_audio(m, "BassBoost")
         if not audio: return
         sample_track = list(audio.audio.get_array_of_samples())
@@ -138,18 +138,18 @@ async def get_audio(m, pref):
         ae.reply = reply
         ae.voice = reply.document.attributes[0].voice
         ae.duration = reply.document.attributes[0].duration
-        await m.respond(f"[{pref}] Скачиваю...")
+        await client.send_message(m.chat_id, "я ебалн", reply_to=reply)
         ae.audio = AudioSegment.from_file(io.BytesIO(await reply.download_media(bytes)))
-        await m.respond(f"[{pref}] Работаю...")
+        await m.edit(f"[{pref}] Работаю...")
         return ae
-    else: await m.respond(f"[{pref}] reply to audio..."); return None
+    else: await m.reply(f"[{pref}] reply to audio..."); return None
 async def go_out(m, audio, out, pref, title, fs=None):
     o = io.BytesIO()
     o.name = "audio." + ("ogg" if audio.voice else "mp3")
     if audio.voice: out.split_to_mono()
-    await m.respond(f"[{pref}] Экспортирую...")
+    await m.edit(f"[{pref}] Экспортирую...")
     out.export(o, format="mp3" if audio.voice else "wav", bitrate="44100" if audio.voice else None, codec="u16le" if audio.voice else None)
     o.seek(0)
-    await m.respond(f"[{pref}] Отправляю...")
+    await m.edit(f"[{pref}] Отправляю...")
     await m.client.send_file(m.to_id, o, reply_to=audio.reply.id, voice_note=audio.voice, attributes=[types.DocumentAttributeAudio(duration = fs if fs else audio.duration, title=title, performer="@Sekai_Yoneya")] if not audio.voice else None)
     await m.delete()
