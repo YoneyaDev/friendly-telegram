@@ -15,7 +15,7 @@ class WeatherMod(loader.Module):
         """"Кидает погоду картинкой.\nИспользование: .pw <город>; ничего.""" 
         args = utils.get_args_raw(message).replace(' ', '+')
         city = requests.get(f"https://wttr.in/{args if args != None else ''}.png").content 
-        await message.client.send_file(message.reply_to.id, city)
+        await message.client.send_file(reply_to.message.to_id, city)
  
  
     async def awcmd(self, message): 
