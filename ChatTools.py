@@ -47,13 +47,13 @@ class ChatMod(loader.Module):
         except ValueError:
             user = await message.client.get_entity(message.sender_id)
 
-        await message.edit(f"<b>Имя:</b> <code>{user.first_name}</code>\n"
+        await message.reply(f"<b>Имя:</b> <code>{user.first_name}</code>\n"
                            f"<b>ID:</b> <code>{user.id}</code>")
 
     async def chatidcmd(self, message):
         """Команда .chatid показывает ID чата."""
         if message.is_private:
-            return await message.edit("<b>Это не чат!</b>")
+            return await message.reply("<b>Это не чат!</b>")
         args = utils.get_args_raw(message)
         to_chat = None
 
@@ -68,7 +68,7 @@ class ChatMod(loader.Module):
 
         chat = await message.client.get_entity(to_chat)
 
-        await message.edit(f"<b>Название:</b> <code>{chat.title}</code>\n"
+        await message.reply(f"<b>Название:</b> <code>{chat.title}</code>\n"
                            f"<b>ID</b>: <code>{chat.id}</code>")
 
     async def invitecmd(self, message):
@@ -142,8 +142,7 @@ class ChatMod(loader.Module):
     async def userscmd(self, message):
         """Команда .users <имя>; ничего выводит список всех пользователей в чате."""
         if message.is_private:
-            return await message.edit("<b>Это не чат!</b>")
-        await message.edit("<b>Считаем...</b>")
+            return await message.reply("<b>Это не чат!</b>")
         args = utils.get_args_raw(message)
         info = await message.client.get_entity(message.chat_id)
         title = info.title or "этом чате"
@@ -163,9 +162,9 @@ class ChatMod(loader.Module):
             else:
                 mentions += f"\n• <a href =\"tg://user?id={user.id}\">{user.first_name}</a> | <code>{user.id}</code>"
         try:
-            await message.edit(mentions)
+            await message.reply(mentions)
         except MessageTooLongError:
-            await message.edit(
+            await message.reply(
                 "<b>Черт, слишком большой чат. Загружаю список пользователей в файл...</b>")
             with open("userslist.md", "w+") as file:
                 file.write(mentions)
@@ -175,13 +174,11 @@ class ChatMod(loader.Module):
                                                    title),
                                            reply_to=message.id)
             remove("userslist.md")
-            await message.delete()
 
     async def adminscmd(self, message):
         """Команда .admins показывает список всех админов в чате."""
         if message.is_private:
-            return await message.edit("<b>Это не чат!</b>")
-        await message.edit("<b>Считаем...</b>")
+            return await message.reply("<b>Это не чат!</b>")
         info = await message.client.get_entity(message.chat_id)
         title = info.title or "this chat"
 
@@ -204,9 +201,9 @@ class ChatMod(loader.Module):
             else:
                 mentions += f"\n• <a href=\"tg://user?id={user.id}\">{user.first_name}</a> | {rank} | <code>{user.id}</code>"
         try:
-            await message.edit(mentions)
+            await message.reply(mentions)
         except MessageTooLongError:
-            await message.edit(
+            await message.reply(
                 "Черт, слишком много админов здесь. Загружаю список админов в файл...")
             with open("adminlist.md", "w+") as file:
                 file.write(mentions)
@@ -216,13 +213,11 @@ class ChatMod(loader.Module):
                                                    title),
                                            reply_to=message.id)
             remove("adminlist.md")
-            await message.delete()
 
     async def botscmd(self, message):
         """Команда .bots показывает список всех ботов в чате."""
         if message.is_private:
-            return await message.edit("<b>Это не чат!</b>")
-        await message.edit("<b>Считаем...</b>")
+            return await message.reply("<b>Это не чат!</b>")
 
         info = await message.client.get_entity(message.chat_id)
         title = info.title or "this chat"
@@ -238,9 +233,9 @@ class ChatMod(loader.Module):
                 mentions += f"\n• Удалённый бот <b>|</b> <code>{user.id}</code> "
 
         try:
-            await message.edit(mentions, parse_mode="html")
+            await message.reply(mentions, parse_mode="html")
         except MessageTooLongError:
-            await message.edit("Черт, слишком много ботов здесь. Загружаю "
+            await message.reply("Черт, слишком много ботов здесь. Загружаю "
                                "список ботов в файл...")
             with open("botlist.md", "w+") as file:
                 file.write(mentions)
@@ -250,7 +245,6 @@ class ChatMod(loader.Module):
                                                    title),
                                            reply_to=message.id)
             remove("botlist.md")
-            await message.delete()
 
     async def commoncmd(self, message):
         """Используй .common <@ или реплай>, чтобы узнать общие чаты с
