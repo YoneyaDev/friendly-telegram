@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 @loader.tds
 class ImpMod(loader.Module):
     """Among Us"""
-    strings = {'name': 'Impostor?'}
+    strings = {'name': 'Амонг Ас'}
 
     async def impcmd(self, message):
         """Используй: .imp <@ или текст или реплай>."""
@@ -31,7 +31,6 @@ class ImpMod(loader.Module):
         background = requests.get(f"https://fl1yd.su/modules/stuff/impostor{randint(1,22)}.png").content
         font = requests.get("https://fl1yd.su/modules/stuff/font2.ttf").content
         
-        await message.edit("Минуточку...")
         reply = await message.get_reply_message()
         args = utils.get_args_raw(message)
         
@@ -59,4 +58,3 @@ class ImpMod(loader.Module):
         image.save(output, "png")
         output.seek(0)
         await message.client.send_file(message.to_id, output, reply_to=reply)
-        await message.delete()
