@@ -13,15 +13,13 @@ class WeatherMod(loader.Module):
      
     async def pwcmd(self, message): 
         """"Кидает погоду картинкой.\nИспользование: .pw <город>; ничего.""" 
-        args = utils.get_args_raw(message).replace(' ', '+') 
-        await message.reply("Узнаем погоду...") 
+        args = utils.get_args_raw(message).replace(' ', '+')
         city = requests.get(f"https://wttr.in/{args if args != None else ''}.png").content 
-        await message.client.send_file(message.reply.to_id, city)
+        await message.client.send_file(message.reply_to.id, city)
  
  
     async def awcmd(self, message): 
         """Кидает погоду ascii-артом.\nИспользование: .aw <город>; ничего.""" 
-        city = utils.get_args_raw(message) 
-        await message.reply("Узнаем погоду...") 
+        city = utils.get_args_raw(message)
         r = requests.get(f"https://wttr.in/{city if city != None else ''}?0?q?T&lang=ru") 
         await message.reply(f"<code>Город: {r.text}</code>")
