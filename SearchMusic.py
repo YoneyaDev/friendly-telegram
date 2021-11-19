@@ -11,11 +11,11 @@ class SearchMusicMod(loader.Module):
     strings = {"name": "Поиск музыки"} 
  
     async def smcmd(self, message): 
-        """Используй: .sm «название» чтобы найти музыку по названию.""" 
+        """Используй: .sm «название», чтобы найти музыку по названию.""" 
         args = utils.get_args_raw(message) 
         reply = await message.get_reply_message() 
         if not args: 
-            return await message.reply("<b>Нет аргументов.</b>")  
+            return await message.reply("<b>Какую песню найти?</b>")  
         try:
             music = await message.client.inline_query('lybot', args) 
             await message.client.send_file(message.to_id, music[0].result.document, reply_to=reply.id if reply else None) 
