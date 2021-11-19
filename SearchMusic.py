@@ -15,10 +15,8 @@ class SearchMusicMod(loader.Module):
         args = utils.get_args_raw(message) 
         reply = await message.get_reply_message() 
         if not args: 
-            return await message.edit("<b>Нет аргументов.</b>")  
-        try: 
-            await message.edit("<b>Загрузка...</b>") 
+            return await message.reply("<b>Нет аргументов.</b>")  
+        try:
             music = await message.client.inline_query('lybot', args) 
-            await message.delete() 
             await message.client.send_file(message.to_id, music[0].result.document, reply_to=reply.id if reply else None) 
         except: return await message.client.send_message(message.chat_id, f"<b>Музыка с названием <code>{args}</code> не найдена.</b>")
