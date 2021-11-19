@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 @loader.tds
 class ImpMod(loader.Module):
     """Among Us"""
-    strings = {'name': 'Амонг Ас'}
+    strings = {'name': 'Among Us'}
 
     async def impcmd(self, message):
         """Используй: .imp <@ или текст или реплай>."""
