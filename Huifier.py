@@ -30,7 +30,7 @@ class Ебал_я_в_рот_ваш_пеп_8_Mod(loader.Module):
 		if not text:
 			reply = await message.get_reply_message()
 			if not reply:
-				await message.delete()
+				await message.reply("Реплай где?")
 				return
 			text = reply.raw_text.split()
 		async def huify(word):
@@ -56,7 +56,7 @@ class Ебал_я_в_рот_ваш_пеп_8_Mod(loader.Module):
 		for word in text:
 			хуй = await huify(word)
 			out.append(хуй)
-		await message.reply(" ".join(out))
+		await reply.reply(" ".join(out))
 		
 	async def хуйняcmd(self, message):
 		text = utils.get_args(message)
