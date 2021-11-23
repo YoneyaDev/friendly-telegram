@@ -457,10 +457,10 @@ class AdminToolsMod(loader.Module):
         if not message.is_private:
             chat = await message.get_chat()
             if not chat.admin_rights and not chat.creator:
-                return await message.edit("<b>Я не админ здесь.</b>")
+                return await message.reply("<b>Я не админ здесь.</b>")
             else:
                 if chat.admin_rights.delete_messages == False:
-                    return await message.edit("<b>У меня нет нужных прав.</b>")
+                    return await message.reply("<b>У меня нет нужных прав.</b>")
 
         args = utils.get_args_raw(message)
         reply = await message.get_reply_message()
@@ -476,7 +476,6 @@ class AdminToolsMod(loader.Module):
 
         await message.client(DeleteUserHistoryRequest(message.to_id, user.id))
         await message.client.send_message(message.to_id, self.strings('deleted', message).format(user.first_name))
-        await message.delete() 
 
 
     async def deluserscmd(self, message):
@@ -497,7 +496,7 @@ class AdminToolsMod(loader.Module):
                 del_status = f"<b>Найден {del_u} удаленный аккаунт в чате, очистите их с помощью </b><code>.delusers clean</code><b>.</b>"
             if del_u > 0:
                 del_status = f"<b>Найдено {del_u} удаленных аккаунтов в чате, очистите их с помощью </b><code>.delusers clean</code><b>.</b>"
-            return await message.edit(del_status)
+            return await message.reply(del_status)
 
         chat = await message.get_chat()
         if not chat.admin_rights and not chat.creator:
@@ -529,7 +528,7 @@ class AdminToolsMod(loader.Module):
         if del_a > 0:
             del_status = f"<b>Кикнуто {del_u} удалённых аккаунтов.\n" \
                             f"{del_a} удалённых аккаунта админов не кикнуты.</b>"
-        await message.edit(del_status)
+        await message.reply(del_status)
 
 
 def resizepic(reply):
