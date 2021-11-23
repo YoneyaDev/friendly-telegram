@@ -74,13 +74,13 @@ class ChatMod(loader.Module):
     async def invitecmd(self, message):
         """Используйте .invite <@ или реплай>, чтобы добавить пользователя в чат."""
         if message.is_private:
-            return await message.edit("<b>Это не чат!</b>")
+            return await message.reply("<b>Это не чат!</b>")
 
         args = utils.get_args_raw(message)
         reply = await message.get_reply_message()
 
         if not args and not reply:
-            return await message.edit("<b>Нет аргументов или реплая.</b>")
+            return await message.reply("<b>Нет аргументов или реплая.</b>")
 
         try:
             if args:
@@ -98,7 +98,7 @@ class ChatMod(loader.Module):
                 await message.client(
                     InviteToChannelRequest(channel=message.chat_id,
                                            users=[user.id]))
-            return await message.edit("<b>Пользователь приглашён успешно!</b>")
+            return await message.reply("<b>Пользователь приглашён успешно!</b>")
 
         except ValueError:
             m = "<b>Неверный @ или ID.</b>"
@@ -132,11 +132,11 @@ class ChatMod(loader.Module):
         """Используйте команду .leave, чтобы кикнуть себя из чата."""
         args = utils.get_args_raw(message)
         if message.is_private:
-            return await message.edit("<b>Это не чат!</b>")
+            return await message.reply("<b>Это не чат!</b>")
         if args:
-            await message.edit(f"<b>Я покидаю этот чат...\nПричина: {args}</b>")
+            await message.reply(f"<b>Я покидаю этот чат...\nПричина: {args}</b>")
         else:
-            await message.edit("<b>Я покидаю этот чат...</b>")
+            await message.reply("<b>Я покидаю этот чат...</b>")
         await message.client(LeaveChannelRequest(message.chat_id))
 
     async def userscmd(self, message):
