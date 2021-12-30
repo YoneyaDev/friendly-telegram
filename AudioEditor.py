@@ -138,17 +138,18 @@ async def get_audio(m, pref):
         ae.reply = reply
         ae.voice = reply.document.attributes[0].voice
         ae.duration = reply.document.attributes[0].duration
-        await m.reply(f"[{pref}] Скачиваю...")
+        await m.edit(f"[{pref}] Скачиваю...")
         ae.audio = AudioSegment.from_file(io.BytesIO(await reply.download_media(bytes)))
-        await m.reply(f"[{pref}] Работаю...")
+        await m.edit(f"[{pref}] Работаю...")
         return ae
     else: await m.reply(f"[{pref}] reply to audio..."); return None
 async def go_out(m, audio, out, pref, title, fs=None):
     o = io.BytesIO()
     o.name = "audio." + ("ogg" if audio.voice else "mp3")
     if audio.voice: out.split_to_mono()
-    await m.reply(f"[{pref}] Экспортирую...")
+    await m.edit(f"[{pref}] Экспортирую...")
     out.export(o, format="mp3" if audio.voice else "wav", bitrate="44100" if audio.voice else None, codec="u16le" if audio.voice else None)
     o.seek(0)
-    await m.reply(f"[{pref}] Отправляю...")
+    await m.edit(f"[{pref}] Отправляю...")
+    await message.delete()
     await m.client.send_file(m.to_id, o, reply_to=audio.reply.id, voice_note=audio.voice, attributes=[types.DocumentAttributeAudio(duration = fs if fs else audio.duration, title=title, performer="@SYoneyaChannel")] if not audio.voice else None)
